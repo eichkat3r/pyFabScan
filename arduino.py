@@ -22,7 +22,12 @@ SELECT_STEPPER    = 212 # Unused
 class ArduinoInterface(object):
 	def __init__(self, port):
 		# Connect to the given serial port
-		self._serial = serial.Serial(port, 9600)
+		# TODO: Select serial port from list
+		try:
+			self._serial = serial.Serial(port, 9600)
+		except serial.SerialException:
+			print 'Could not open device', port
+			sys.exit()
 		
 		# Check for a pong signal (the arduino sends FABSCAN_PONG if
 		# it is set up).
